@@ -1,0 +1,184 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node
+{
+    int data;
+    struct node* link;
+};
+struct node *insertAtEnd(int value,struct node *head)
+ {
+     struct node *ptr=(struct node *)malloc(sizeof(struct node));
+     ptr->data=value;
+     ptr->link=  NULL;
+     if(head==NULL)
+     {
+        head=ptr;
+        
+        
+     }
+     else
+     {
+         struct node *curr=head;
+         while(curr->link!=NULL)
+         {
+             curr=curr->link;
+         }
+         curr->link=ptr;
+         
+     }
+     return head;
+     
+ }
+ 
+ struct node *insertAtstart(int value,struct node *head)
+ {
+     struct node *newnode = (struct node *)malloc(sizeof(struct node));
+     newnode->data = value;
+     newnode->link = NULL;
+     
+     if(head==NULL)
+     {
+         head=newnode;
+     }
+     else
+     {
+         struct node *curr=newnode;
+         curr->link=head;
+         head=curr;
+     }
+     return head;   
+ }
+ struct node* insertAtPos(int pos, int value, struct node* head) {
+    struct node* newnode = (struct node*)malloc(sizeof(struct node));
+    newnode->data = value;
+    newnode->link = NULL;
+
+    if (pos == 0) {
+        newnode->link = head;
+        head = newnode;
+    } else {
+        struct node* curr = head;
+        int count = 0;
+
+        // Traverse to the node just before the position where we want to insert
+        while (count < pos - 1 && curr != NULL) {
+            curr = curr->link;
+            count++;
+        }
+
+        if (curr == NULL) {
+            // The position is beyond the length of the list, insert at the end
+            curr->link = newnode;
+        } else {
+            // Insert the new node between curr and the next node
+            //newnode->link = curr->link;
+            struct node *a=curr->link;
+            newnode->link=a;
+            curr->link = newnode;
+        }
+    }
+    return head;
+}
+ 
+ 
+void merge_linked_list(struct node *head,struct node *new_head)
+{
+    struct node *curr=head;
+    while(curr->link!=NULL)
+    {
+        curr=curr->link;
+    }
+    curr->link=new_head;
+    
+}
+ 
+ void display(struct node *head,int n)
+  {
+      printf("%d Linked List:",n);
+      struct node *curr=head;
+      while(curr!=NULL)
+      {
+        
+         
+          printf("%d -->", curr->data);
+          
+          curr=curr->link;
+           
+          
+      }
+      
+      if(head==NULL)
+      {
+          printf("linked list is empty");
+      }
+     printf("NULL\n");
+      
+      
+         
+      
+  }
+  
+  
+ void display_merge(struct node *head)
+  {
+      printf(" Merged Linked List ");
+      struct node *curr=head;
+      while(curr!=NULL)
+      {
+        
+         
+          printf("%d -->", curr->data);
+          
+          curr=curr->link;
+           
+          
+      }
+      
+      if(head==NULL)
+      {
+          printf("linked list is empty");
+      }
+     printf("NULL\n");
+      
+      
+         
+      
+  }
+  
+  
+    
+int main()
+{
+    struct node* head = NULL;
+    
+    head=insertAtEnd(4,head);
+    head=insertAtEnd(8,head);
+    head=insertAtEnd(12,head);
+    head=insertAtEnd(18,head);
+    head=insertAtEnd(35,head);
+    head=insertAtEnd(62,head);
+    
+  
+   
+   display(head,1);
+   
+   
+    struct node* new_head = NULL;
+    
+    new_head=insertAtEnd(70,new_head);
+    new_head=insertAtEnd(78,new_head);
+    new_head=insertAtEnd(82,new_head);
+    new_head=insertAtEnd(94,new_head);
+
+    display(new_head,2);
+    
+    
+   merge_linked_list(head,new_head);
+   
+   display_merge(head);
+   
+    
+
+    return 0;
+}

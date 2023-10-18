@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+struct node
+{
+    int data;
+    struct node *left, *right;
+};
+
+
+struct node *create()
+{
+    int x;
+    struct node *new_node = (struct node *)malloc(sizeof(struct node));
+    printf("Enter the data: ");
+    scanf("%d", &x);
+    if (x == -1)
+    {
+        return NULL;
+    }
+    new_node->data = x;
+    printf("Enter the left child of data %d: ", x);
+    new_node->left = create();
+
+    printf("Enter the right child of data %d: ", x);
+    new_node->right = create();
+
+    return new_node;
+}
+
+bool BST(struct node *root){
+    if(root==NULL){
+        return true;
+    }
+    if(root->left!=NULL && root->left->data > root->data){
+        return false;
+    }
+    if(root->right!=NULL && root->right->data<root->data){
+        return false;
+    }
+    if(BST(root->left)==true && BST(root->right)==true){
+        return true;
+    }
+    return false;
+
+
+}
+
+
+int main()
+{
+    struct node *root = NULL;
+    root = create();
+
+    if(BST(root))
+    {
+        printf("binary tree");
+    }
+    else
+    {
+        printf("not a binary tree");
+    }
+    
+
+    return 0;
+}

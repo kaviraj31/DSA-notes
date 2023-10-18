@@ -1,0 +1,107 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node
+{
+    int data;
+    struct node* link;
+};
+struct node *insertAtEnd(int value,struct node *head)
+ {
+     struct node *ptr=(struct node *)malloc(sizeof(struct node));
+     ptr->data=value;
+     ptr->link=  NULL;
+     if(head==NULL)
+     {
+        head=ptr;
+        
+        
+     }
+     else
+     {
+         struct node *curr=head;
+         while(curr->link!=NULL)
+         {
+             curr=curr->link;
+         }
+         curr->link=ptr;
+         
+     }
+     return head;
+     
+ }
+ 
+ 
+ 
+ void display(struct node *head)
+  {
+      printf("Linked List is: ");
+      struct node *curr=head;
+      while(curr!=NULL)
+      {
+        
+         
+          printf("%d --> ", curr->data);
+          
+          curr=curr->link;
+           
+          
+      }
+      
+      if(head==NULL)
+      {
+          printf("linked list is empty");
+      }
+     printf("NULL\n");
+      
+      
+         
+      
+  }
+  
+  
+void data_print(int pos,struct node *head)
+{
+    int count=0;
+    struct node *curr=head;
+     while(curr!=NULL)
+      {
+          curr=curr->link;
+          count++;
+      }
+      
+    int len=count - 1;
+    int new_pos=len-pos;
+     
+    int new_count=0;
+    struct node *new_curr=head;
+    while(new_count< new_pos)
+    {
+        
+        new_curr=new_curr->link;
+        
+        new_count=new_count+1;
+    }
+    printf(" %d Node from the end is :%d ",pos ,new_curr->data);
+    
+    
+    
+}
+    
+int main()
+{
+    struct node* head = NULL;
+    
+    head=insertAtEnd(4,head);
+    head=insertAtEnd(8,head);
+    
+    head=insertAtEnd(16,head);
+    head=insertAtEnd(28,head);
+   
+   head=insertAtEnd(12,head);
+    
+    display(head);
+   
+   data_print(2,head);
+    return 0;
+}

@@ -1,0 +1,118 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+struct node
+{
+    int data;
+    struct node *left, *right;
+};
+
+
+struct node *create()
+{
+    int x;
+    struct node *new_node = (struct node *)malloc(sizeof(struct node));
+    printf("Enter the data: ");
+    scanf("%d", &x);
+    if (x == -1)
+    {
+        return NULL;
+    }
+    new_node->data = x;
+    printf("Enter the left child of data %d: ", x);
+    new_node->left = create();
+
+    printf("Enter the right child of data %d: ", x);
+    new_node->right = create();
+
+    return new_node;
+}
+
+
+struct node* findmin(struct node* root) {
+    if (root == NULL) {
+        return NULL; // Return NULL if the tree is empty
+    }
+    
+    while (root->left != NULL) {
+        root = root->left; // Keep traversing left until you reach the minimum node
+    }
+    
+    return root;
+}
+
+
+struct node* delete(struct node *root, int data)
+{
+    if (root == NULL)  // Tree empty or data not found
+        return root;
+
+    else if (data < root->data)
+    {
+        root->left = delete(root->left, data); // Recursively search in the left subtree
+    }
+    else if (data > root->data)
+    {
+        root->right = delete(root->right, data); // Recursively search in the right subtree
+    }
+    else    // Data found, delete this node
+    {
+        if (root->left == NULL && root->right == NULL) // No children
+        {
+            free(root);
+            root = NULL;
+        }
+        else if (root->left == NULL)  // No left child, replace with right child
+        {
+            struct node *temp = root;
+            root = root->right;
+            free(temp);
+        }
+        else if (root->right == NULL)  // No right child, replace with left child
+        {
+            struct node *temp = root;
+            root = root->left;
+            free(temp);
+        }
+        else  // Node has two children
+        {
+            struct node *temp = findmin(root->right); // Find the minimum node in the right subtree
+            root->data = temp->data; // Copy the data of the minimum node to the current node
+            root->right = delete(root->right, temp->data); // Delete the minimum node in the right subtree
+        }
+    }
+    
+    return root;
+}
+
+
+void inorder(struct node *root)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+    inorder(root->left);
+    printf("%d ", root->data);
+    inorder(root->right);
+}
+
+
+
+int main()
+{
+    struct node *root = NULL;
+    root = create();
+
+   printf("In order traversaal of tree before deleting data:\n");
+   inorder(root);
+
+   root= delete(root,10);
+ 
+
+   printf("In order traversal of tree after deleting data\n");
+   inorder(root);
+
+    return 0;
+}
